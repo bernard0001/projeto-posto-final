@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "loco.h"
+#include "header.h"
 #define RED "\e[0;31m"
 #define WHT "\e[0;37m"
 #define GRN "\e[0;32m"
@@ -11,9 +11,9 @@
 #define YEL "\e[0;33m"
 
 int main(void) {
-  int opcao = 0,atendimento=0, fila=0, carros=0, abastecimento, atendrel=0, opcaogas2= 0, contfila=0, tamanhofila=0,i=0, tamanhoatend=1;
+  int opcao = 0,atendimento=0, fila=0, carros=0, abastecimento, atendrel=0, opcaogas2= 0, contfila=0, tamanhofila=0,i=0, tamanhoatend=1,contrel=0;
   float preco=0, pausa, tanque=200, gasolina=0, gasorel=0, vendasrel=0;
-  char opcao2 = ' ', opcaogas = ' ';
+  char opcao2 = ' ', opcaogas = ' ', nomearqui[20];
   
   struct Tcarro *filacarro;
   struct Tcarro *atendimentos;
@@ -233,9 +233,23 @@ int main(void) {
             break;
           case 'E':
             system("clear");
-            printf(MAG"\nArquivo para impressão:\n A : %.2f.\n B :" 
-                   "%2.f.\n C : %d.\n D : %2.f.\n"WHT, gasorel, vendasrel, atendrel, tanque);
-            flush_in();
+            contrel++;
+            FILE *arquivo;
+              sprintf(nomearqui,"Relatório_%d.txt",contrel);
+                arquivo = fopen(nomearqui, "w");
+                  if (arquivo == NULL){
+                    printf(RED"\n\n Erro de arquivo"WHT);
+                      exit(0);
+                  } else {            
+            fprintf(arquivo, "\n                            RELATÓRIO %d                            \n Arquivo para impressão: \n\n Quantidade de litros vendida : %.2f.\n Valor total arrecadado :" 
+                   "%2.f.\n Quantidade de carros atendidos : %d.\n Quantidade de combustível restante no tanque : %2.f.\n",contrel,gasorel, vendasrel, atendrel, tanque);
+                    for (int i = 0; i<atendrel; i++){
+                      fprintf(arquivo, "\n -Carro: %d\n -Placa do carro:%s\n -Modelo do carro: %s\n -Cor do carro: %s\n -Ano do carro: %d\n -Gasolina comprada(reais): %2.f\n -Gasolina comprada(litros): %2.f\n",i+1, atendimentos[i].placa,atendimentos[i].modelo,atendimentos[i].cor,atendimentos[i].ano,atendimentos[i].Gvalor,atendimentos[i].Glitro);
+                    }
+            fclose(arquivo);//Comando para encerrar a criação do arquivo.
+                    flush_in();
+                    }
+            printf(GRN"Arquivo gerado!"WHT);
             espera();
             system("clear");
             break;
