@@ -84,8 +84,9 @@ void menu(int fila, float tanque, float preco) {
          "(" GRN "2" MAG ") Abastecimento\n"
          "(" GRN "3" MAG ") Exibir carros na fila de espera\n"
          "(" GRN "4" MAG ") Relatórios\n"
-         "(" GRN "5" MAG ") Encerrar\n");
-  printf("\nPor favor, escolha uma das opções.\n" WHT);
+         "(" GRN "5" MAG ") Repor gasolina\n"
+          "(" GRN "6" MAG ") Encerrar\n");
+          printf("\nPor favor, escolha uma das opções.\n" WHT);
 }
 // Função de flush.
 void flush_in() {
@@ -93,4 +94,4 @@ void flush_in() {
   while ((ch = fgetc(stdin)) != EOF && ch != '\n') {
   }
 }
-
+//

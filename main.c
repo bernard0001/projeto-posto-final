@@ -150,6 +150,7 @@ int main(void) {
                     filacarro[k] = filacarro[k + 1];
                   }
                   i -= 1;
+                  opcaogas = ' ';
                   system("clear");
                   break;
                 case 'N':
@@ -168,6 +169,7 @@ int main(void) {
                   fila -= 1;
                   gasolina = 0;
                   opcaogas2 = 1;
+                  opcaogas = ' ';
                   break;
                 default:
                   printf(RED "\NOpção fora do escopo, voltando ao menu "
@@ -218,6 +220,7 @@ int main(void) {
         scanf("\n%c", &opcao2);
         switch (opcao2) {
         case 'A':
+        case 'a':
           system("clear");
           printf(MAG "\nA quantidade de litros vendida é: %2.f litros.\n" WHT,
                  gasorel);
@@ -226,6 +229,7 @@ int main(void) {
           system("clear");
           break;
         case 'B':
+        case 'b':
           system("clear");
           printf(MAG "\nValor total arrecadado: %2.f reais.\n" WHT, vendasrel);
           flush_in();
@@ -233,6 +237,7 @@ int main(void) {
           system("clear");
           break;
         case 'C':
+        case 'c':
           system("clear");
           if (atendrel == 1) {
             printf(MAG "A quantidade de carros atendidos é:" GRN " %d carro.\n",
@@ -259,7 +264,7 @@ int main(void) {
           system("clear");
           break;
         case 'D':
-          case 'd':
+        case 'd':
           system("clear");
           printf(MAG "\nQuantidade de combustível restante no"
                      " tanque é: %2.f litros.\n" WHT,
@@ -318,6 +323,68 @@ int main(void) {
       }
       break;
     case 5:
+      system("clear");
+      printf(MAG "Deseja adicionar quantos litros ao tanque?\n" WHT);
+      scanf("%f", &gasolina);
+      if ((gasolina + tanque) > 200) {
+        printf(MAG "O valor informado é maior que a capacidade do tanque, por "
+                   "favor informe um novo valor.\n" WHT);
+        scanf("%f", &gasolina);
+        if ((gasolina + tanque) > 200) {
+          printf(RED "O valor informado novamente é maior que o tanque, "
+                     "gostaria de preencher o tanque até seu limite?\n" WHT);
+          scanf("%c", &opcaogas2);
+          opcaogas = 0;
+          while (opcaogas != 1) {
+            switch (opcaogas2) {
+            case 's':
+            case 'S':
+              tanque = tanque + (200 - tanque);
+              gasolina = 0;
+              opcaogas = ' ';
+              opcaogas2 = 1;
+              printf(GRN "Gasolina faltante no tanque reposta!\n" WHT);
+              break;
+            case 'n':
+            case 'N':
+              printf("Voltando ao menu principal...\n");
+              espera();
+              opcaogas = 1;
+              opcaogas = ' ';
+              gasolina = 0;
+            break;
+              }
+          }
+        } else {
+          printf(MAG
+                 "A reposição deste total de gasolina em litros será de %2.f, "
+                 "tem certeza que gostaria de realizar a mesma?\n" WHT,
+                 gasolina * preco);
+          scanf("%c", &opcaogas);
+          while (opcaogas2 != 1) {
+            switch (opcaogas) {
+            case 's':
+            case 'S':
+              tanque += gasolina;
+              gasolina = 0;
+              opcaogas = ' ';
+              opcaogas2 = 1;
+              printf(GRN "Gasolina faltante no tanque reposta!\n" WHT);
+              break;
+            case 'n':
+            case 'N':
+              printf(MAG"Voltando ao menu principal...\n"WHT);
+              espera();
+              opcaogas = 1;
+              opcaogas = ' ';
+              gasolina = 0;
+            break;
+              }
+          }
+        }
+      }
+      break;
+    case 6:
       system("clear");
       printf(MAG "Encerrando programa." WHT);
       exit(0);
